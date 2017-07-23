@@ -115,7 +115,7 @@ def poland_goals
 end
 def germany_goals
   execute_statement("SELECT matchid, mdate, COUNT(matchid)
-FROM game JOIN goal WHERE matchid=id
+FROM game JOIN goal ON matchid=id
 AND goal.teamid='GER'
 GROUP BY matchid, mdate;")
 end

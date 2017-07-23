@@ -11,7 +11,7 @@ def execute_statement(sql)
   puts " "
 
   #Connect to the DB
-  conn = PG::Connection.open(host: 'localhost', :dbname => 'EnterDBNameHere', :user => 'EnterUsernameHere', :password => 'EnterPasswordHere')
+  conn = PG::Connection.open(host: 'localhost', :dbname => 'DBNameHere', :user => 'UsernameHere', :password => 'PasswordHere')
 
   #Gain the resultset by running the command
   rs = conn.exec(sql).values

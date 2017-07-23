@@ -21,7 +21,7 @@ def select_nobel
     puts "11. Umlaut"
     puts "12. Apostrophe"
     puts "13. Knights of the realm"
-    puts "13. Chemistry Physics Last"
+    puts "14. Chemistry Physics Last"
     puts "0. Exit"
 
     choice = gets.chomp

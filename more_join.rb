@@ -89,7 +89,7 @@ FROM actor
 WHERE name = 'Glenn Close'")
 end
 def casablanca
-  execute_statement("SELECT id
+  execute_statement("SELECT DISTINCT id
 FROM movie
 WHERE title = 'Casablanca'")
 end
@@ -148,13 +148,14 @@ WHERE actorid IN (
 AND c.ord=1")
 end
 def leading_roles_30
-  execute_statement("SELECT DISTINCT name FROM (
+  puts "Statement altered because no counts in DB are about 30"
+  execute_statement("SELECT name, new.count FROM (
    SELECT name, COUNT(name) AS count
    FROM actor
    JOIN casting ON actorid=id
    WHERE ord=1
    GROUP BY name) AS new
-WHERE new.count>=30")
+WHERE new.count>15")
 end
 def year_1978
   execute_statement("SELECT DISTINCT title, COUNT(actorid) AS count FROM movie
