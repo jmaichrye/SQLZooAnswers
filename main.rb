@@ -9,6 +9,10 @@ require_relative './select_nobel.rb'
 require_relative './self_join.rb'
 require_relative './sum_and_count.rb'
 require_relative './using_null.rb'
+require_relative './global_variables.rb'
+
+
+
 
 
 begin
@@ -28,6 +32,7 @@ begin
     puts "7. More JOIN"
     puts "8. Using NULL"
     puts "9. Self JOIN"
+    puts "10. Add actor to actor db"
     puts "0. Exit"
 
     choice = gets.chomp

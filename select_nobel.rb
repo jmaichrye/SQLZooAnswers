@@ -66,12 +66,19 @@ def select_nobel
 end
 
 def winners_1950
+  # SELECT yr, subject, winner
+  # FROM nobel
+  # WHERE yr = 1950
   execute_statement("SELECT yr, subject, winner
   FROM nobel
  WHERE yr = 1950")
 end
 
 def literature_1962
+  # SELECT winner
+  # FROM nobel
+  # WHERE yr = 1962
+  # AND subject = 'Literature'
   execute_statement("SELECT winner
   FROM nobel
  WHERE yr = 1962
@@ -79,65 +86,95 @@ def literature_1962
 end
 
 def albert_einstein
+  # SELECT yr, subject FROM nobel
+  # WHERE winner = 'Albert Einstein'
   execute_statement("SELECT yr, subject FROM nobel
 WHERE winner = 'Albert Einstein'")
 end
 
 def recent_peace_prizes
+  # SELECT winner FROM nobel
+  # WHERE subject = 'Peace'
+  # AND yr>=2000;
   execute_statement("SELECT winner FROM nobel
 WHERE subject = 'Peace'
 AND yr>=2000;")
 end
 
 def literature_1980s
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE subject='Literature' AND yr>=1980 AND yr<=1989;
   execute_statement("SELECT yr, subject, winner FROM nobel
 WHERE subject='Literature' AND yr>=1980 AND yr<=1989;")
 end
 
 def only_presidents
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter', 'Barack Obama');
   execute_statement("SELECT yr, subject, winner FROM nobel
  WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter', 'Barack Obama');")
 end
 
 def john
+  # SELECT winner FROM nobel
+  # WHERE winner LIKE 'John%'
   execute_statement("SELECT winner FROM nobel
 WHERE winner LIKE 'John%'")
 end
 
 def chemistry_physics_different_years
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE (yr = 1980 AND subject = 'Physics')
+  # OR (yr = 1984 AND subject = 'Chemistry')
   execute_statement("SELECT yr, subject, winner FROM nobel
 WHERE (yr = 1980 AND subject = 'Physics')
 OR (yr = 1984 AND subject = 'Chemistry')")
 end
 
 def exclude_chemists_medics
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE yr = 1980 AND subject NOT IN ('Chemistry', 'Medicine')
   execute_statement("SELECT yr, subject, winner FROM nobel
 WHERE yr = 1980 AND subject NOT IN ('Chemistry', 'Medicine')")
 end
 
 def early_medicine_late_literature
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE yr < 1910 AND subject= 'Medicine'
+  # OR yr >=2004 AND subject = 'Literature'
   execute_statement("SELECT yr, subject, winner FROM nobel
 WHERE yr < 1910 AND subject= 'Medicine'
 OR yr >=2004 AND subject = 'Literature'")
 end
 
 def umlaut
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE winner = 'peter grünberg'
   execute_statement("SELECT yr, subject, winner FROM nobel
 WHERE winner = 'Peter Grünberg'")
 end
 
 def apostrophe
+  # SELECT yr, subject, winner FROM nobel
+  # WHERE winner = 'Eugene O''neill'
   execute_statement("SELECT DISTINCT yr, subject, winner FROM nobel
 WHERE winner = 'Eugene O''Neill'")
 end
 
 def knights_of_the_realm
+  # SELECT winner, yr, subject FROM nobel
+  # WHERE winner LIKE 'Sir%'
+  # ORDER BY yr DESC
   execute_statement("SELECT winner, yr, subject FROM nobel
 WHERE winner LIKE 'Sir%'
 ORDER BY yr DESC")
 end
 
 def chemistry_physics_last
+  # SELECT winner, subject
+  # FROM nobel
+  # WHERE yr=1984
+  # ORDER BY SUBJECT IN ('Physics','Chemistry'),  subject, winner
   execute_statement("SELECT winner, subject
   FROM nobel
  WHERE yr=1984

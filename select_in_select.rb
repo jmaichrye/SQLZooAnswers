@@ -55,39 +55,61 @@ def select_in_select
 end
 
 def larger_than_russia
+  # SELECT name FROM world
+  # WHERE population >
+  #           (SELECT population FROM world
+  #           WHERE name='Russia')
   execute_statement("SELECT name FROM world
   WHERE population > (SELECT DISTINCT population FROM world
       WHERE name='Russia')")
 end
 
 def gdp_more_than_uk
+  # SELECT name FROM world
+  # WHERE gdp/population > (SELECT gdp/population FROM world WHERE name='United Kingdom')
+  # AND continent='Europe'
   execute_statement("SELECT name FROM world
 WHERE gdp/population > (SELECT DISTINCT gdp/population FROM world WHERE name='United Kingdom')
 AND continent='Europe'")
 end
 
 def contains_argentina_or_austrailia
+  # SELECT name, continent FROM world
+  # WHERE continent IN (SELECT continent FROM world WHERE name='Argentina' OR name='Australia') ORDER BY name
   execute_statement("SELECT DISTINCT name, continent FROM world
 WHERE continent IN (SELECT continent FROM world WHERE name='Argentina' OR name='Australia') ORDER BY name")
 end
 
 def population_more_than_canada_less_than_poland
+  # SELECT name, population FROM world
+  # WHERE population > (SELECT population FROM world WHERE name='Canada')
+  # AND population < (SELECT population FROM world WHERE name='Poland');
   execute_statement("SELECT DISTINCT name, population FROM world
 WHERE population > (SELECT DISTINCT population FROM world WHERE name='Canada')
 AND population < (SELECT DISTINCT population FROM world WHERE name='Poland');")
 end
 
 def europe_countries_as_percentage_of_germany
+  # SELECT name, CONCAT(ROUND(population/(SELECT population FROM world WHERE name='Germany')*100,0),'%')
+  # FROM world
+  # WHERE continent = 'Europe';
   execute_statement("SELECT DISTINCT name, CONCAT((population*100)/(SELECT DISTINCT population FROM world WHERE name='Germany'), '%') FROM world
 WHERE continent='Europe'
 ORDER BY name;")
 end
 
 def gdp_larger_than_europe
+  # SELECT name FROM world WHERE GDP > (SELECT MAX(GDP) FROM world WHERE continent='Europe');
   execute_statement("SELECT DISTINCT name FROM world WHERE GDP > (SELECT MAX(GDP) FROM world WHERE continent='Europe');")
 end
 
 def largest_countries_area_each_continent
+  # SELECT continent, name, area FROM world x
+  # WHERE area >= ALL
+  # (SELECT area FROM world y
+  # WHERE y.continent=x.continent
+  # AND area>0)
+
   execute_statement("SELECT DISTINCT continent, name, area FROM world x
   WHERE area >= ALL
     (SELECT area FROM world y
@@ -96,6 +118,11 @@ def largest_countries_area_each_continent
 end
 
 def countries_first_in_alphabet
+  # SELECT continent, name FROM world x
+  # WHERE name <= ALL
+  # (SELECT name  FROM world y
+  # WHERE y.continent=x.continent
+  # GROUP BY continent)
   execute_statement("SELECT DISTINCT continent, name FROM world x
 WHERE name <= ALL
 (SELECT name  FROM world y
@@ -105,10 +132,14 @@ end
 
 
 def continents_with_all_small_country_populations
+  # SELECT DISTINCT name, continent, population FROM world WHERE continent NOT IN (SELECT continent FROM world WHERE population > 25000000)
   execute_statement("SELECT DISTINCT name, continent, population FROM world WHERE continent NOT IN (SELECT continent FROM world WHERE population > 25000000) ORDER BY name")
 end
 
 def countries_with_three_times_more_pop_than_all_countries_in_same_continent
+  # SELECT name, continent FROM world x
+  # WHERE population > ALL
+  # (SELECT (3*population) FROM world y WHERE x.continent=y.continent AND population>0 AND x.name!=y.name)
   execute_statement("SELECT DISTINCT name, continent FROM world x
   WHERE population > ALL
      (SELECT (3*population) FROM world y WHERE x.continent=y.continent AND population>0 AND x.name!=y.name)")

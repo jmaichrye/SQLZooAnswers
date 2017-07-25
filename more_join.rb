@@ -65,35 +65,54 @@ def more_join
         print "Incorrect Choice"
     end
   end
-
 end
 
 def yr_1962
+  # SELECT id, title
+  # FROM movie
+  # WHERE yr=1962
   execute_statement("SELECT id, title
  FROM movie
  WHERE yr=1962")
 end
 def citizen_kane
+  # SELECT yr
+  # FROM movie
+  # WHERE title='Citizen Kane'
   execute_statement("SELECT yr
  FROM movie
  WHERE title='Citizen Kane'")
 end
 def star_trek
+  # SELECT id, title, yr
+  # FROM movie
+  # WHERE title LIKE '%Star Trek%'
   execute_statement("SELECT id, title, yr
 FROM movie
 WHERE title LIKE '%Star Trek%'")
 end
 def glen_close
+  # SELECT id
+  # FROM actor
+  # WHERE name = 'Glenn Close'
   execute_statement("SELECT id
 FROM actor
 WHERE name = 'Glenn Close'")
 end
 def casablanca
+  # SELECT id
+  # FROM movie
+  # WHERE title = 'Casablanca'
   execute_statement("SELECT DISTINCT id
 FROM movie
 WHERE title = 'Casablanca'")
 end
 def casablanca_list
+  # SELECT name
+  # FROM actor
+  # WHERE id IN (SELECT actorid
+  # FROM casting
+  # WHERE movieid=11768)
   execute_statement("SELECT name
 FROM actor
 WHERE id IN (SELECT actorid
@@ -101,21 +120,36 @@ FROM casting
 WHERE movieid=27)")
 end
 def alien_cast
+  # SELECT name
+  # FROM actor JOIN casting
+  # ON actorid=id
+  # AND movieid = (SELECT id FROM movie WHERE title='Alien')
   execute_statement("SELECT name
 FROM actor JOIN casting
 ON actorid=id
 AND movieid = (SELECT DISTINCT id FROM movie WHERE title='Alien')")
 end
 def harrison_ford
+  # SELECT title FROM movie JOIN casting ON id=movieid
+  # WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford')
   execute_statement("SELECT DISTINCT title FROM movie JOIN casting ON id=movieid
 WHERE actorid = (SELECT DISTINCT id FROM actor WHERE name = 'Harrison Ford')")
 end
 def harrison_ford_supporting
+  # SELECT title FROM movie JOIN casting ON id=movieid
+  # WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford')
+  # AND ord<>1;
   execute_statement("SELECT DISTINCT title FROM movie JOIN casting ON id=movieid
 WHERE actorid = (SELECT DISTINCT id FROM actor WHERE name = 'Harrison Ford')
 AND ord<>1;")
 end
 def lead_1962
+  # SELECT m.title, a.name
+  # FROM casting AS c
+  # JOIN actor AS a ON actorid=a.id
+  # JOIN movie AS m ON movieid=m.id
+  # WHERE m.yr=1962
+  # AND c.ord=1
   execute_statement("SELECT DISTINCT m.title, a.name
 FROM casting AS c
 JOIN actor AS a ON actorid=a.id
@@ -124,6 +158,17 @@ WHERE m.yr=1962
 AND c.ord=1")
 end
 def busy_john_travolta
+  # SELECT yr,COUNT(title) FROM
+  # movie JOIN casting ON movie.id=movieid
+  # JOIN actor   ON actorid=actor.id
+  # where name='John Travolta'
+  # GROUP BY yr
+  # HAVING COUNT(title)=(SELECT MAX(c) FROM
+  # (SELECT yr,COUNT(title) AS c FROM
+  # movie JOIN casting ON movie.id=movieid
+  # JOIN actor   ON actorid=actor.id
+  # where name='John Travolta'
+  # GROUP BY yr) AS t)
   execute_statement("SELECT yr,COUNT(title) FROM
   movie JOIN casting ON movie.id=movieid
          JOIN actor   ON actorid=actor.id
@@ -138,6 +183,14 @@ HAVING COUNT(title)=(SELECT MAX(c) FROM
 )")
 end
 def lead_julie_andrews
+  # SELECT m.title, a.name FROM casting as c
+  # JOIN movie AS m ON c.movieid=m.id
+  # JOIN actor AS a ON c.actorid=a.id
+  # WHERE m.id IN(SELECT movieid FROM casting
+  # WHERE actorid IN (
+  #                      SELECT id FROM actor
+  # WHERE name='Julie Andrews'))
+  # AND c.ord=1
   execute_statement("SELECT DISTINCT m.title, a.name FROM casting as c
 JOIN movie AS m ON c.movieid=m.id
 JOIN actor AS a ON c.actorid=a.id
@@ -148,6 +201,13 @@ WHERE actorid IN (
 AND c.ord=1")
 end
 def leading_roles_30
+  # SELECT name FROM (
+  #                      SELECT name, COUNT(name) AS count
+  # FROM actor
+  # JOIN casting ON actorid=id
+  # WHERE ord=1
+  # GROUP BY name) AS new
+  # WHERE new.count>=30
   puts "Statement altered because no counts in DB are about 30"
   execute_statement("SELECT name, new.count FROM (
    SELECT name, COUNT(name) AS count
@@ -158,6 +218,11 @@ def leading_roles_30
 WHERE new.count>15")
 end
 def year_1978
+  # SELECT title, COUNT(actorid) AS count FROM movie
+  # JOIN casting ON movieid=id
+  # WHERE yr=1978
+  # GROUP BY title
+  # ORDER BY count DESC, title;
   execute_statement("SELECT DISTINCT title, COUNT(actorid) AS count FROM movie
 JOIN casting ON movieid=id
 WHERE yr=1978
@@ -165,6 +230,13 @@ GROUP BY title
 ORDER BY count DESC, title;")
 end
 def art_garfunkel
+  # SELECT DISTINCT name FROM actor
+  # JOIN casting ON actor.id=casting.actorid
+  # WHERE movieid IN (SELECT movieid
+  # FROM casting JOIN actor as a ON a.id=actorid
+  # JOIN movie AS m ON m.id=movieid
+  # WHERE a.name='Art Garfunkel')
+  # AND name <> 'Art Garfunkel'
   execute_statement("SELECT DISTINCT name FROM actor
 JOIN casting ON actor.id=casting.actorid
 WHERE movieid IN (SELECT movieid

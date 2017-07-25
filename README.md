@@ -1,5 +1,5 @@
 # SQLZooAnswers
-This project was for interview prep.  The project can be run through main.rb.  All SQL statements have been altered to work with a localhost PostgreSQL database.
+This project was for interview prep.  The project can be run through main.rb.   All SQL statements have been altered to work with a localhost PostgreSQL database.  Original answers are in comments within each individual function.  The function to add data to the actor db has been added as well through the add_actor_to_db function.
 /Users/JonMaichrye/.rbenv/versions/2.4.0/bin/ruby -e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift) /Users/JonMaichrye/RubymineProjects/untitled6/main.rb
 Please select an option by number:
 1. SELECT basics

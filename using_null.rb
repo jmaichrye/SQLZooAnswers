@@ -54,38 +54,60 @@ def using_null
 end
 
 def one
+  # SELECT name FROM teacher WHERE dept IS NULL;
   execute_statement("SELECT name FROM teacher WHERE dept IS NULL;")
 end
 def two
+  # SELECT teacher.name, dept.name
+  # FROM teacher INNER JOIN dept
+  # ON (teacher.dept=dept.id)
   execute_statement("SELECT teacher.name, dept.name
  FROM teacher INNER JOIN dept
            ON (teacher.dept=dept.id)")
 end
 def three
+  # SELECT teacher.name, dept.name
+  # FROM teacher LEFT JOIN dept
+  # ON (teacher.dept=dept.id)
   execute_statement("SELECT teacher.name, dept.name
  FROM teacher LEFT JOIN dept
            ON (teacher.dept=dept.id)")
 end
 def four
+  # SELECT teacher.name, dept.name
+  # FROM teacher RIGHT JOIN dept
+  # ON (teacher.dept=dept.id)
   execute_statement("SELECT teacher.name, dept.name
  FROM teacher RIGHT JOIN dept
            ON (teacher.dept=dept.id)")
 end
 def five
+  # SELECT name, COALESCE(mobile,'07986 444 2266') FROM teacher;
   execute_statement("SELECT name, COALESCE(mobile,'07986 444 2266') FROM teacher;")
 end
 def six
+  # SELECT teacher.name, COALESCE(dept.name, 'None') FROM teacher LEFT JOIN dept ON teacher.dept=dept.id;
   execute_statement("SELECT teacher.name, COALESCE(dept.name, 'None') FROM teacher LEFT JOIN dept ON teacher.dept=dept.id;")
 end
 def seven
+  # SELECT COUNT(teacher.name), COUNT(teacher.mobile) FROM teacher;
   execute_statement("SELECT COUNT(teacher.name), COUNT(teacher.mobile) FROM teacher;")
 end
 def eight
+  # SELECT dept.name, COUNT(teacher.name) FROM teacher
+  # RIGHT JOIN dept ON dept.id=teacher.dept
+  # GROUP BY dept.name;
   execute_statement("SELECT dept.name, COUNT(teacher.name) FROM teacher
 RIGHT JOIN dept ON dept.id=teacher.dept
 GROUP BY dept.name;")
 end
 def nine
+  # SELECT name,
+  #        CASE WHEN dept=1 OR dept=2
+  # THEN 'Sci'
+  # ELSE 'Art'
+  # END
+  #   FROM teacher;
   execute_statement("SELECT name,
 CASE WHEN dept=1 OR dept=2
    THEN 'Sci'
@@ -95,6 +117,13 @@ FROM teacher;
 ")
 end
 def ten
+  # SELECT name,
+  #        CASE WHEN dept=1 OR dept=2
+  # THEN 'Sci'
+  # WHEN dept=3 THEN 'Art'
+  # ELSE 'None'
+  # END
+  #   FROM teacher;
   execute_statement("SELECT name,
 CASE WHEN dept=1 OR dept=2
    THEN 'Sci'

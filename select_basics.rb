@@ -33,15 +33,22 @@ def select_basics
 end
 
 def population_germany
+  #SELECT population FROM world
+  #WHERE name = 'Germany'
+
   execute_statement("SELECT population FROM world WHERE name = 'Germany';")
 end
 
 def show_populations
+  # SELECT name, population FROM world
+  # WHERE name IN ('Sweden', 'Norway', 'Denmark');
   execute_statement("SELECT name, population FROM world
   WHERE name IN ('Sweden', 'Norway', 'Denmark');")
 end
 
 def populations_between
+  # SELECT name, area FROM world
+  # WHERE area BETWEEN 200000 AND 250000
   execute_statement("SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000")
 end

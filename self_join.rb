@@ -56,28 +56,46 @@ and the bus no. and company for the second bus."
 end
 
 def one1
+  # SELECT count(id) FROM stops;
   execute_statement("SELECT count(id) FROM stops;")
 end
 def two1
+  # SELECT id FROM stops WHERE name = 'Craiglockhart';
   execute_statement("SELECT id FROM stops WHERE name = 'Craiglockhart';")
 end
 def three1
+  # SELECT stops.id, stops.name FROM stops JOIN route ON stops.id=route.stop
+  # WHERE route.num='4' and company='LRT'
   execute_statement("SELECT stops.id, stops.name FROM stops JOIN route ON stops.id=route.stop
 WHERE route.num='4' and company='LRT'")
 end
 def four1
+  # SELECT company, num, COUNT(*)
+  # FROM route WHERE stop=149 OR stop=53
+  # GROUP BY company, num
+  # HAVING COUNT(*)=2
   execute_statement("SELECT company, num, COUNT(*)
 FROM route WHERE stop=149 OR stop=53
 GROUP BY company, num
 HAVING COUNT(*)=2")
 end
 def five1
+  # SELECT a.company, a.num, a.stop, b.stop
+  # FROM route a JOIN route b ON
+  # (a.company=b.company AND a.num=b.num)
+  # WHERE a.stop=53 and b.stop=149
   execute_statement("SELECT a.company, a.num, a.stop, b.stop
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
 WHERE a.stop=53 and b.stop=149")
 end
 def six1
+  # SELECT a.company, a.num, stopa.name, stopb.name
+  # FROM route a JOIN route b ON
+  # (a.company=b.company AND a.num=b.num)
+  # JOIN stops stopa ON (a.stop=stopa.id)
+  # JOIN stops stopb ON (b.stop=stopb.id)
+  # WHERE stopa.name='Craiglockhart' AND stopb.name='London Road'
   execute_statement("SELECT a.company, a.num, stopa.name, stopb.name
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
@@ -86,12 +104,22 @@ FROM route a JOIN route b ON
 WHERE stopa.name='Craiglockhart' AND stopb.name='London Road'")
 end
 def seven1
+  # SELECT DISTINCT a.company, a.num
+  # FROM route a JOIN route b ON
+  # (a.company=b.company AND a.num=b.num)
+  # WHERE a.stop=115 and b.stop=137
   execute_statement("SELECT DISTINCT a.company, a.num
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
 WHERE a.stop=115 and b.stop=137")
 end
 def eight1
+  # SELECT DISTINCT a.company, a.num
+  # FROM route a JOIN route b ON
+  # (a.company=b.company AND a.num=b.num)
+  # JOIN stops stopa ON (a.stop=stopa.id)
+  # JOIN stops stopb ON (b.stop=stopb.id)
+  # WHERE stopa.name='Craiglockhart' and stopb.name='Tollcross'
   execute_statement("SELECT DISTINCT a.company, a.num
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
@@ -100,6 +128,12 @@ FROM route a JOIN route b ON
 WHERE stopa.name='Craiglockhart' and stopb.name='Tollcross'")
 end
 def nine1
+  # SELECT DISTINCT stopa.name, b.company, b.num
+  # FROM route a JOIN route b ON
+  # (a.company=b.company AND a.num=b.num)
+  # JOIN stops stopa ON (a.stop=stopa.id)
+  # JOIN stops stopb ON (b.stop=stopb.id)
+  # WHERE stopb.name='Craiglockhart' AND b.company='LRT'
   execute_statement("SELECT DISTINCT stopa.name, b.company, b.num
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
@@ -108,6 +142,17 @@ FROM route a JOIN route b ON
 WHERE stopb.name='Craiglockhart' AND b.company='LRT'")
 end
 def ten1
+  # SELECT DISTINCT routea.num, routea.company, stopb.name ,  routed.num,  routed.company
+  # FROM route routea JOIN route routeb
+  # ON (routea.company = routeb.company AND routea.num = routeb.num)
+  # JOIN ( route routec JOIN route routed ON (routec.company = routed.company AND routec.num= routed.num))
+  # JOIN stops stopa ON (routea.stop = stopa.id)
+  # JOIN stops stopb ON (routeb.stop = stopb.id)
+  # JOIN stops stopc ON (routec.stop = stopc.id)
+  # JOIN stops stopd ON (routed.stop = stopd.id)
+  # WHERE  stopa.name = 'Craiglockhart' AND stopd.name = 'Sighthill'
+  # AND  stopb.name = stopc.name
+  # ORDER BY LENGTH(routea.num), routeb.num, stopb.id, LENGTH(routec.num), routed.num
   puts "Correct Statement on SQLZoo is below: "
   puts "SELECT DISTINCT routea.num, routea.company, stopb.name ,  routed.num,  routed.company
 FROM route routea JOIN route routeb

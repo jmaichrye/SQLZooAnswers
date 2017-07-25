@@ -63,65 +63,101 @@ def select_world
 end
 
 def select_name_continent_pop
+  # SELECT name, continent, population FROM world;
   execute_statement("SELECT name, continent, population FROM world;")
 end
 
 def large_countries
+  # SELECT name FROM world
+  # WHERE population > 200000000
+
   execute_statement("SELECT name FROM world WHERE population > 200000000")
 end
 
 def per_capita_gdp
+  # SELECT name, GDP/population FROM world
+  # WHERE population >= 200000000;
   execute_statement("SELECT name, GDP/population FROM world
 WHERE population >= 200000000;")
 end
 
 def south_america_millions
+  # SELECT name, population/1000000 FROM world
+  # WHERE continent = 'South America';
   execute_statement("SELECT name, population/1000000 FROM world
 WHERE continent = 'South America';")
 end
 
 def france_germany_italy
+  # SELECT name, population FROM world
+  # WHERE name IN ( 'France', 'Germany', 'Italy' );
   execute_statement("SELECT name, population FROM world
 WHERE name IN ( 'France', 'Germany', 'Italy' );")
 end
 
 def united
+  # SELECT name FROM world
+  # WHERE name LIKE '%United%'
   execute_statement("SELECT name FROM world
 WHERE name LIKE '%United%'")
 end
 
 def two_ways_to_be_big
+  # SELECT name, population, area FROM world
+  # WHERE area > 3000000 OR population > 250000000;
   execute_statement("SELECT name, population, area FROM world WHERE area > 3000000 OR population > 250000000;")
 end
 
 def one_or_the_other
+  # SELECT name, population, area FROM world
+  # WHERE area > 3000000 XOR population > 250000000;
   execute_statement("SELECT name, population, area FROM world
 WHERE ((area > 3000000) AND NOT (population > 250000000)) OR (NOT(area > 3000000) AND (population > 250000000))")
 end
 
 def rounding
+  # SELECT name, ROUND(population/1000000,2), ROUND(GDP/1000000000,2) FROM world
+  # WHERE continent='South America';
   execute_statement("SELECT name, ROUND(population/1000000,2), ROUND(GDP/1000000000,2) FROM world
 WHERE continent='South America';")
 end
 
 def trillion_dollar_economies
+  # SELECT name, ROUND(GDP/population,-3) FROM world
+  # WHERE GDP > 1000000000000;
   execute_statement("SELECT name, ROUND(GDP/population,-3) FROM world
 WHERE GDP > 1000000000000;")
 end
 
 def name_and_capital_same_length
+  # SELECT name, capital
+  # FROM world
+  # WHERE LENGTH(name)=LENGTH(capital);
+
+
   puts "Correct query statement is below: "
   puts "SELECT name, capital FROM world WHERE LENGTH(name)=LENGTH(capital);"
   puts "Unable to gain data for capitals to add to postgresql DB"
 end
 
 def match_name_and_capital
+  # SELECT name, capital
+  # FROM world
+  # WHERE LEFT(name,1)=LEFT(capital,1) AND name <> capital;
   puts "Correct query statement is below: "
   puts "SELECT name, capital FROM world WHERE LEFT(name,1)=LEFT(capital,1) AND name <> capital;"
   puts "Unable to gain data for capitals to add to postgresql DB"
 end
 
 def all_vowels
+  # SELECT name
+  # FROM world
+  # WHERE name LIKE '%a%'
+  # AND name LIKE '%e%'
+  # AND name LIKE '%i%'
+  # AND name LIKE '%o%'
+  # AND name LIKE '%u%'
+  # AND name NOT LIKE '% %'
   execute_statement("SELECT name
    FROM world
     WHERE name LIKE '%a%'
