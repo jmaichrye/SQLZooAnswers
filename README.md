@@ -1,5 +1,5 @@
 # SQLZooAnswers
-This project was for interview prep.  The project can be run through main.rb.   All SQL statements have been altered to work with a localhost PostgreSQL database.  Original answers are in comments within each individual function.  The function to add data to the actor db has been added as well through the add_actor_to_db function.
+This project was for interview prep.  The project can be run through main.rb.   All SQL statements have been altered to work with a localhost PostgreSQL database.  Original answers are in comments within each individual function.  The function to add data to the actor db has been added as well through the add_actor_to_db function.  You must edit the global variables file with your local host parameters for the script to work.
 
 SAMPLE RUN OUTPUT BELOW:
 
